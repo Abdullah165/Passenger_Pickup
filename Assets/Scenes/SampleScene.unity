@@ -3069,7 +3069,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0250992e80f036b4ea4b2c2260f232b5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.059
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0250992e80f036b4ea4b2c2260f232b5,
         type: 3}
@@ -3903,7 +3903,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 5a44415c64ac4734fa6fcba07ece350d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.95
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5a44415c64ac4734fa6fcba07ece350d,
         type: 3}
@@ -4305,6 +4305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1324cd77a310cf4594edd08708e9b52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CarSegments:
+  - {fileID: 2134590558}
+  - {fileID: 1072210409}
+  - {fileID: 879091089}
 --- !u!65 &1111530759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7220,7 +7224,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b35801625bce6a4489da638fa57b7103,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.057
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b35801625bce6a4489da638fa57b7103,
         type: 3}
@@ -7235,7 +7239,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b35801625bce6a4489da638fa57b7103,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b35801625bce6a4489da638fa57b7103,
         type: 3}
@@ -7250,7 +7254,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b35801625bce6a4489da638fa57b7103,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b35801625bce6a4489da638fa57b7103,
         type: 3}
