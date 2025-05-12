@@ -4,22 +4,22 @@ using System.Collections.Generic;
 
 public class CarMovementController : MonoBehaviour
 {
-    [SerializeField] private List<Transform> m_CarSegments;
-    private List<Vector3> m_PreviousPositions;
+    [SerializeField] private List<Transform> m_carSegments;
+    private List<Vector3> m_previousPositions;
 
-    private Vector3 m_Offset;
-    private float m_ZCoord;
-    private bool m_IsDragging;
+    private Vector3 m_offset;
+    private float m_zCoord;
+    private bool m_isDragging;
 
-    private Vector3 m_DragStartWorldPos;
-    private Vector3Int m_LastGridPos;
+    private Vector3 m_dragStartWorldPos;
+    private Vector3Int m_lastGridPos;
 
-    private Camera m_Camera;
+    private Camera m_camera;
 
 
     private void Start()
     {
-        m_Camera = Camera.main;
+        m_camera = Camera.main;
     }
 
     void Update()
@@ -32,40 +32,40 @@ public class CarMovementController : MonoBehaviour
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    Ray ray = m_Camera.ScreenPointToRay(touchPos);
+                    Ray ray = m_camera.ScreenPointToRay(touchPos);
                     if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
                     {
-                        m_ZCoord = m_Camera.WorldToScreenPoint(transform.position).z;
-                        m_DragStartWorldPos = GetWorldPosFromScreen(touchPos);
-                        m_Offset = transform.position - m_DragStartWorldPos;
-                        m_IsDragging = true;
+                        m_zCoord = m_camera.WorldToScreenPoint(transform.position).z;
+                        m_dragStartWorldPos = GetWorldPosFromScreen(touchPos);
+                        m_offset = transform.position - m_dragStartWorldPos;
+                        m_isDragging = true;
 
-                        m_LastGridPos = GetWorldToGrid(transform.position);
+                        m_lastGridPos = GetWorldToGrid(transform.position);
                     }
                     break;
 
                 case TouchPhase.Moved:
-                    if (m_IsDragging)
+                    if (m_isDragging)
                     {
                         Vector3 worldPos = GetWorldPosFromScreen(touchPos);
-                        Vector3 targetPos = worldPos + m_Offset;
+                        Vector3 targetPos = worldPos + m_offset;
                         targetPos.y = transform.position.y;
 
                         var gridPos = GetWorldToGrid(targetPos);
 
-                        if (gridPos != m_LastGridPos)
+                        if (gridPos != m_lastGridPos)
                         {
                             var snappedPos = GetGridToWorldPos(gridPos);
                             transform.DOMove(snappedPos, 0.2f);
-                            UpdateCarSegements(gridPos - m_LastGridPos);
-                            m_LastGridPos = gridPos;
+                            UpdateCarSegements(gridPos - m_lastGridPos);
+                            m_lastGridPos = gridPos;
                         }
                     }
                     break;
 
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    m_IsDragging = false;
+                    m_isDragging = false;
                     break;
             }
         }
@@ -74,8 +74,8 @@ public class CarMovementController : MonoBehaviour
     Vector3 GetWorldPosFromScreen(Vector2 screenPos)
     {
         Vector3 pos = screenPos;
-        pos.z = m_ZCoord;
-        return m_Camera.ScreenToWorldPoint(pos);
+        pos.z = m_zCoord;
+        return m_camera.ScreenToWorldPoint(pos);
     }
 
     Vector3Int GetWorldToGrid(Vector3 worldPos)
@@ -90,15 +90,15 @@ public class CarMovementController : MonoBehaviour
 
     void UpdateCarSegements(Vector3Int direction)
     {
-        m_PreviousPositions = new List<Vector3>();
-        foreach (var segment in m_CarSegments)
+        m_previousPositions = new List<Vector3>();
+        foreach (var segment in m_carSegments)
         {
-            m_PreviousPositions.Add(segment.position);
+            m_previousPositions.Add(segment.position);
         }
 
         // Move Head.
-        Vector3 newHeadPos = GetGridToWorldPos(m_LastGridPos + direction);
-        m_CarSegments[0].DOMove(newHeadPos, 0.2f);
+        Vector3 newHeadPos = GetGridToWorldPos(m_lastGridPos + direction);
+        m_carSegments[0].DOMove(newHeadPos, 0.2f);
 
         Vector3 headRotation = Vector3.zero;
         if (direction == Vector3Int.left)
@@ -118,23 +118,23 @@ public class CarMovementController : MonoBehaviour
             headRotation = new Vector3(0, 180, 0);
         }
 
-        m_CarSegments[0].DORotate(headRotation, 0.2f);
+        m_carSegments[0].DORotate(headRotation, 0.2f);
 
-        for (int i = 1; i < m_CarSegments.Count; i++)
+        for (int i = 1; i < m_carSegments.Count; i++)
         {
-            if(i == m_CarSegments.Count - 1)
+            if(i == m_carSegments.Count - 1)
             {
-                m_CarSegments[i].DOMove(m_PreviousPositions[i - 1], 0.2f);
-                m_CarSegments[i].DORotate(m_CarSegments[i - 2].eulerAngles, 0.2f);
+                m_carSegments[i].DOMove(m_previousPositions[i - 1], 0.2f);
+                m_carSegments[i].DORotate(m_carSegments[i - 2].eulerAngles, 0.2f);
                 break;
             }
-            var targetPos = m_PreviousPositions[i - 1];
+            var targetPos = m_previousPositions[i - 1];
 
-            var lookDirection = m_PreviousPositions[i - 1] - m_PreviousPositions[i];
+            var lookDirection = m_previousPositions[i - 1] - m_previousPositions[i];
             var targetRotation = Quaternion.LookRotation(lookDirection != Vector3.zero ? lookDirection : Vector3.zero);
 
-            m_CarSegments[i].DOMove(targetPos,0.2f);
-            m_CarSegments[i].DORotateQuaternion(targetRotation,0.2f);
+            m_carSegments[i].DOMove(targetPos,0.2f);
+            m_carSegments[i].DORotateQuaternion(targetRotation,0.2f);
         }
     }
 }
