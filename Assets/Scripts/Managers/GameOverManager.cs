@@ -6,6 +6,8 @@ public class GameOverManager : MonoBehaviour
 {
     public static GameOverManager Instance { get; private set; }
 
+    public event EventHandler OnGameOver;
+
     public enum CarType
     {
         Blue,
@@ -38,13 +40,12 @@ public class GameOverManager : MonoBehaviour
 
         if (AreAllCarsFull())
         {
-            Debug.Log("All cars are full. Trigger game over or next logic here.");
-            // Do something: e.g. Trigger Game Over, animation, etc.
+            OnGameOver?.Invoke(this, EventArgs.Empty);
         }
     }
 
 
-    public bool AreAllCarsFull()
+    private bool AreAllCarsFull()
     {
         foreach (var car in m_cars)
         {

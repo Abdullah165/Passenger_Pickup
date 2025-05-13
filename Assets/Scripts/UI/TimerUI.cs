@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,10 +7,15 @@ public class TimerUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_timerText;
     [SerializeField] private float m_timeForOneRound;
 
+    public event EventHandler OnTimerOut;
+
+    private bool m_isTimerOut;
 
     // Update is called once per frame
     void Update()
     {
+        if (m_isTimerOut) return;
+
         if (m_timeForOneRound > 0)
         {
             m_timeForOneRound -= Time.deltaTime;
@@ -17,6 +23,8 @@ public class TimerUI : MonoBehaviour
         else
         {
             m_timeForOneRound = 0;
+            OnTimerOut?.Invoke(this, EventArgs.Empty);
+            m_isTimerOut = true;
         }
 
         DisplayTime(m_timeForOneRound);
