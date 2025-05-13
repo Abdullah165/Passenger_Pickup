@@ -6,7 +6,7 @@ public class CarCollision : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BluePassage"))
         {
-            PassengerSeatingManager.Instance.HandleBluePassengerEntry(PassengerSeatingManager.PassegnersType.Blue);
+            PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Blue);
         }
     }
 }
