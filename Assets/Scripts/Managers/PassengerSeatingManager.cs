@@ -59,7 +59,7 @@ public class PassengerSeatingManager : MonoBehaviour
         // The car is full off.
         passengerEntrySequence.OnComplete(() =>
         {
-            GameOverManager.Instance.ShrinkCar((GameOverManager.CarType)passegnersType);
+            CarShrinkManager.Instance.ShrinkCar((CarShrinkManager.CarType)passegnersType);
         });
     }
 }

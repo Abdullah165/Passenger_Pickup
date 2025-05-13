@@ -1,9 +1,6 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PassengerSeatingManager;
 
 public class GameOverManager : MonoBehaviour
 {
@@ -16,48 +13,45 @@ public class GameOverManager : MonoBehaviour
     }
 
     [Serializable]
-    public class CarParts
+    public class Car
     {
         public CarType CarType;
-        public List<Transform> CarBodyParts;
+        public bool IsCarFull;
     }
 
-    [SerializeField] private List<CarParts> m_carPartsList;
+    [Tooltip("Insert how many cars we have at the current level.")]
+    [SerializeField] private List<Car> m_cars;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void ShrinkCar(CarType carType)
+    public void SetCarFull(CarType carType)
     {
-        var car = m_carPartsList[(int)carType];
+        int index = (int)carType;
 
-        Sequence carShrinkSequence = DOTween.Sequence();
+        if (index < 0 || index >= m_cars.Count) return;
 
-        var headPart = car.CarBodyParts[0];
+        var car = m_cars[index];
+        car.IsCarFull = true;
 
-        for (int i = 0; i < car.CarBodyParts.Count; i++)
+        if (AreAllCarsFull())
         {
-            if (car.CarBodyParts[i] == headPart) continue;
-
-            var currentPart = car.CarBodyParts[i];
-
-            carShrinkSequence.AppendCallback(() =>
-            {
-                currentPart.DOMove(headPart.position, 0.3f).OnComplete(() =>
-                {
-                    currentPart.DOScale(0, 0.2f);
-                });
-            });
-
-            carShrinkSequence.AppendInterval(0.05f);
-            //item.gameObject.SetActive(false);
+            Debug.Log("All cars are full. Trigger game over or next logic here.");
+            // Do something: e.g. Trigger Game Over, animation, etc.
         }
-
-        carShrinkSequence.OnComplete(() =>
-        {
-            headPart.DOScale(0, 0.2f);
-        });
     }
+
+
+    public bool AreAllCarsFull()
+    {
+        foreach (var car in m_cars)
+        {
+            if (!car.IsCarFull)
+                return false;
+        }
+        return true;
+    }
+
 }
