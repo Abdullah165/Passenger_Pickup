@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverUI : MonoBehaviour
@@ -20,6 +21,16 @@ public class GameOverUI : MonoBehaviour
         GameOverManager.Instance.OnGameOver += Instance_OnGameOver;
 
         m_timerUI.OnTimerOut += TimerUI_OnTimerOut;
+
+        m_nextLevel.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        });
+
+        m_tryAgain.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        });
     }
 
     private void TimerUI_OnTimerOut(object sender, System.EventArgs e)
