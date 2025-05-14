@@ -12,6 +12,7 @@ public class GameOverManager : MonoBehaviour
     {
         Blue,
         Orange,
+        Red,
     }
 
     [Serializable]
