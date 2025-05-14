@@ -14,6 +14,9 @@ public class CarMovementController : MonoBehaviour
     private Vector3 m_dragStartWorldPos;
     private Vector3Int m_lastGridPos;
 
+    private readonly string m_roadblockLayer = "roadblock";
+    private Vector3 m_rayUpwardOffset = new(0, 0.4f, 0);
+
     private Camera m_camera;
 
 
@@ -55,10 +58,20 @@ public class CarMovementController : MonoBehaviour
 
                         if (gridPos != m_lastGridPos)
                         {
-                            var snappedPos = GetGridToWorldPos(gridPos);
-                            transform.DOMove(snappedPos, 0.2f);
-                            UpdateCarSegements(gridPos - m_lastGridPos);
-                            m_lastGridPos = gridPos;
+                            Vector3 moveDirection = (GetGridToWorldPos(gridPos) - transform.position).normalized;
+
+                            // Move only when the car doesn't hit roadblock 
+                            if (!Physics.Raycast(transform.position + m_rayUpwardOffset, moveDirection, 1.0f, LayerMask.GetMask(m_roadblockLayer)))
+                            {
+                                var snappedPos = GetGridToWorldPos(gridPos);
+                                transform.DOMove(snappedPos, 0.2f);
+                                UpdateCarSegements(gridPos - m_lastGridPos);
+                                m_lastGridPos = gridPos;
+                            }
+                            else
+                            {
+                                Debug.Log("Blocked in direction: " + moveDirection);
+                            }
                         }
                     }
                     break;
@@ -122,19 +135,20 @@ public class CarMovementController : MonoBehaviour
 
         for (int i = 1; i < m_carSegments.Count; i++)
         {
-            if(i == m_carSegments.Count - 1)
+            if (i == m_carSegments.Count - 1)
             {
                 m_carSegments[i].DOMove(m_previousPositions[i - 1], 0.2f);
                 m_carSegments[i].DORotate(m_carSegments[i - 2].eulerAngles, 0.2f);
                 break;
             }
+
             var targetPos = m_previousPositions[i - 1];
 
             var lookDirection = m_previousPositions[i - 1] - m_previousPositions[i];
             var targetRotation = Quaternion.LookRotation(lookDirection != Vector3.zero ? lookDirection : Vector3.zero);
 
-            m_carSegments[i].DOMove(targetPos,0.2f);
-            m_carSegments[i].DORotateQuaternion(targetRotation,0.2f);
+            m_carSegments[i].DOMove(targetPos, 0.2f);
+            m_carSegments[i].DORotateQuaternion(targetRotation, 0.2f);
         }
     }
 }
