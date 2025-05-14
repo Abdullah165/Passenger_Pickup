@@ -12,6 +12,7 @@ public class PassengerSeatingManager : MonoBehaviour
     {
         Blue,
         Orange,
+        Red,
     }
 
     [Serializable]

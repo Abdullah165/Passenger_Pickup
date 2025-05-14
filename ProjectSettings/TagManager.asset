@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - BluePassage
+  - OrangePassage
+  - BlueCar
+  - OrangeCar
+  - RedCar
+  - RedPassage
   layers:
   - Default
   - TransparentFX
@@ -12,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - roadblock
   - 
   - 
   - 

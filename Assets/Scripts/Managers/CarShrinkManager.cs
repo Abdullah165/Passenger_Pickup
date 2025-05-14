@@ -11,6 +11,7 @@ public class CarShrinkManager : MonoBehaviour
     {
         Blue,
         Orange,
+        Red,
     }
 
     [Serializable]
