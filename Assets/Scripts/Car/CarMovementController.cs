@@ -135,7 +135,7 @@ public class CarMovementController : MonoBehaviour
 
         for (int i = 1; i < m_carSegments.Count; i++)
         {
-            if (i == m_carSegments.Count - 1)
+            if (m_carSegments.Count > 2 && i == m_carSegments.Count - 1)
             {
                 m_carSegments[i].DOMove(m_previousPositions[i - 1], 0.2f);
                 m_carSegments[i].DORotate(m_carSegments[i - 2].eulerAngles, 0.2f);
