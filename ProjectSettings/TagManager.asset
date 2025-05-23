@@ -12,6 +12,8 @@ TagManager:
   - RedPassage
   - GreenPassage
   - GreenCar
+  - OrangeMan
+  - BlueMan
   layers:
   - Default
   - TransparentFX
@@ -20,9 +22,9 @@ TagManager:
   - Water
   - UI
   - roadblock
-  - 
-  - 
-  - 
+  - OrangeCar
+  - Passenger
+  - BlueCar
   - 
   - 
   - 

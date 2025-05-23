@@ -15,7 +15,7 @@ public class CarMovementController : MonoBehaviour
     private Vector3Int m_lastGridPos;
 
     private readonly string m_roadblockLayer = "roadblock";
-    private Vector3 m_rayUpwardOffset = new(0, 0.4f, 0);
+    private Vector3 m_rayUpwardOffset = new(0, 0.3f, 0);
 
     private Camera m_camera;
 

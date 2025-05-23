@@ -8,12 +8,14 @@ public class PassengerSeatingManager : MonoBehaviour
 {
     public static PassengerSeatingManager Instance { get; private set; }
 
+    public event EventHandler OnAllowedPassengersGetIn;
+
     public enum PassegnersType
     {
-        Blue,
-        Orange,
-        Red,
-        Green,
+        BlueMan,
+        OrangeMan,
+        RedMan,
+        GreenMan,
     }
 
     [Serializable]
@@ -33,35 +35,34 @@ public class PassengerSeatingManager : MonoBehaviour
     }
 
 
-    public void HandlePassengerEntry(PassegnersType passegnersType)
+    public void HandlePassengerEntry(PassegnersType passegnersType, Transform passenger)
     {
         var passengerGroup = m_passegersGroups[(int)passegnersType];
 
-        Sequence passengerEntrySequence = DOTween.Sequence();
+        if (passengerGroup.Passengers.Count == 0 || passengerGroup.Seats.Count == 0)
+            return;
 
-        for (int i = 0; i < passengerGroup.Seats.Count; i++)
+        // 1. Reserve seat and animator immediately
+        var seat = passengerGroup.Seats[0];
+        var passengerAnimator = passengerGroup.PassengersAnimator[0];
+
+        passengerGroup.Seats.RemoveAt(0);
+        passengerGroup.Passengers.RemoveAt(0);
+        passengerGroup.PassengersAnimator.RemoveAt(0);
+
+        passenger.DOMove(seat.position, 0.3f).OnComplete(() =>
         {
-            var passenger = passengerGroup.Passengers[i];
-            var passengerAnimator = passengerGroup.PassengersAnimator[i];
-            var seat = passengerGroup.Seats[i];
+            passenger.SetParent(seat);
+            passenger.localPosition = Vector3.zero;
+            //passengerAnimator.Play("Sitting Idle");
 
-            passengerEntrySequence.AppendCallback(() =>
+            if (passengerGroup.Passengers.Count <= 0)
             {
-                passenger.DOMove(seat.position, 0.2f).OnComplete(() =>
-                {
-                    passenger.SetParent(seat);
-                    passenger.localPosition = Vector3.zero;
-                    passengerAnimator.Play("Sitting Idle");
-                });
-            });
+                CarShrinkManager.Instance.ShrinkCar((CarShrinkManager.CarType)passegnersType);
+            }
 
-            passengerEntrySequence.AppendInterval(0.2f); // small delay between passengers
-        }
-
-        // The car is full off.
-        passengerEntrySequence.OnComplete(() =>
-        {
-            CarShrinkManager.Instance.ShrinkCar((CarShrinkManager.CarType)passegnersType);
+            OnAllowedPassengersGetIn?.Invoke(this, EventArgs.Empty);
         });
+
     }
 }

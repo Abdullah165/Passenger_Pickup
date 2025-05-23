@@ -6,22 +6,22 @@ public class CarCollision : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BluePassage") && gameObject.CompareTag("BlueCar"))
         {
-            PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Blue);
+           // PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Blue);
         }
 
         if (other.gameObject.CompareTag("OrangePassage") && gameObject.CompareTag("OrangeCar"))
         {
-            PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Orange);
+            //PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Orange);
         }
 
         if (other.gameObject.CompareTag("RedPassage") && gameObject.CompareTag("RedCar"))
         {
-            PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Red);
+            ///PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Red);
         }
 
         if (other.gameObject.CompareTag("GreenPassage") && gameObject.CompareTag("GreenCar"))
         {
-            PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Green);
+            //PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Green);
         }
     }
 }
