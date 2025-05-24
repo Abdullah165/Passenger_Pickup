@@ -13,7 +13,6 @@ public class GameOverManager : MonoBehaviour
         Blue,
         Orange,
         Red,
-        Green,
     }
 
     [Serializable]

@@ -1,6 +1,4 @@
-using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,6 +48,7 @@ public class PassageController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Change the passage's material depending on the passenger type.
         if (m_tagToMaterialDic.ContainsKey(other.gameObject.tag))
         {
             (string tag, _) = m_tagToMaterialDic[other.gameObject.tag];
@@ -69,7 +68,7 @@ public class PassageController : MonoBehaviour
             }
         }
 
-        if (other.gameObject.CompareTag("OrangeCar") || other.gameObject.CompareTag("BlueCar"))
+        if (other.gameObject.CompareTag("OrangeCar") || other.gameObject.CompareTag("BlueCar") || other.gameObject.CompareTag("RedCar"))
         {
             isActive = true;
         }
@@ -77,7 +76,7 @@ public class PassageController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("OrangeCar") || other.CompareTag("BlueCar"))
+        if (other.CompareTag("OrangeCar") || other.CompareTag("BlueCar") || other.gameObject.CompareTag("RedCar"))
         {
             isActive = false;
         }
@@ -85,7 +84,6 @@ public class PassageController : MonoBehaviour
 
     private void RearrangePassengers()
     {
-        Debug.Log("hi");
         m_passengers.Remove(m_passengers[0]);
 
         for (int i = 0; i < m_passengers.Count; i++)
@@ -95,7 +93,7 @@ public class PassageController : MonoBehaviour
 
             Vector3 moveDir = -passenger.forward;
             passenger.position += moveDir * spacing;
-            //passenger.DOMove(passenger.position + moveDir * spacing, 0.01f);
+            //passenger.DOMove(passenger.position + moveDir * spacing, 0.05f);
         }
     }
 }

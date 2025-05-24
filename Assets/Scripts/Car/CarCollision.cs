@@ -4,24 +4,34 @@ public class CarCollision : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("BluePassage") && gameObject.CompareTag("BlueCar"))
+        if (other.CompareTag("BlueExit") && gameObject.CompareTag("BlueCar"))
         {
-           // PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Blue);
+            var passengerType = PassengerSeatingManager.PassegnersType.BlueMan;
+
+            if (PassengerSeatingManager.Instance.IsCarFull(passengerType))
+            {
+                CarShrinkManager.Instance.ShrinkCar((CarShrinkManager.CarType)passengerType);
+            }
         }
 
-        if (other.gameObject.CompareTag("OrangePassage") && gameObject.CompareTag("OrangeCar"))
+        if (other.CompareTag("OrangeExit") && gameObject.CompareTag("OrangeCar"))
         {
-            //PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Orange);
+            var passengerType = PassengerSeatingManager.PassegnersType.OrangeMan;
+
+            if (PassengerSeatingManager.Instance.IsCarFull(passengerType))
+            {
+                CarShrinkManager.Instance.ShrinkCar((CarShrinkManager.CarType)passengerType);
+            }
         }
 
-        if (other.gameObject.CompareTag("RedPassage") && gameObject.CompareTag("RedCar"))
+        if (other.CompareTag("RedExit") && gameObject.CompareTag("RedCar"))
         {
-            ///PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Red);
-        }
+            var passengerType = PassengerSeatingManager.PassegnersType.RedMan;
 
-        if (other.gameObject.CompareTag("GreenPassage") && gameObject.CompareTag("GreenCar"))
-        {
-            //PassengerSeatingManager.Instance.HandlePassengerEntry(PassengerSeatingManager.PassegnersType.Green);
+            if (PassengerSeatingManager.Instance.IsCarFull(passengerType))
+            {
+                CarShrinkManager.Instance.ShrinkCar((CarShrinkManager.CarType)passengerType);
+            }
         }
     }
 }

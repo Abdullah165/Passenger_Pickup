@@ -10,10 +10,12 @@ TagManager:
   - OrangeCar
   - RedCar
   - RedPassage
-  - GreenPassage
-  - GreenCar
   - OrangeMan
   - BlueMan
+  - BlueExit
+  - OrangeExit
+  - RedExit
+  - RedMan
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - OrangeCar
   - Passenger
   - BlueCar
-  - 
+  - RedCar
   - 
   - 
   - 

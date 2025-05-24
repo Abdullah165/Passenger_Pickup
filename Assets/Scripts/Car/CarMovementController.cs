@@ -138,7 +138,7 @@ public class CarMovementController : MonoBehaviour
             if (m_carSegments.Count > 2 && i == m_carSegments.Count - 1)
             {
                 m_carSegments[i].DOMove(m_previousPositions[i - 1], 0.2f);
-                m_carSegments[i].DORotate(m_carSegments[i - 2].eulerAngles, 0.2f);
+                m_carSegments[i].DORotate(m_carSegments[i - 2].eulerAngles, 0.2f).SetEase(Ease.InQuad);
                 break;
             }
 
@@ -148,7 +148,7 @@ public class CarMovementController : MonoBehaviour
             var targetRotation = Quaternion.LookRotation(lookDirection != Vector3.zero ? lookDirection : Vector3.zero);
 
             m_carSegments[i].DOMove(targetPos, 0.2f);
-            m_carSegments[i].DORotateQuaternion(targetRotation, 0.2f);
+            m_carSegments[i].DORotateQuaternion(targetRotation, 0.2f).SetEase(Ease.InSine);
         }
     }
 }

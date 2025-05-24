@@ -5,6 +5,7 @@ public class PassengerController : MonoBehaviour
 {
     private const string k_orangeCarLayer = "OrangeCar";
     private const string k_blueCarLayer = "BlueCar";
+    private const string k_redCarLayer = "RedCar";
 
     private float m_maxDistance = 1.5f;
 
@@ -25,7 +26,8 @@ public class PassengerController : MonoBehaviour
 
         int orangeCarLayer = LayerMask.NameToLayer(k_orangeCarLayer);
         int blueCarLayer = LayerMask.NameToLayer(k_blueCarLayer);
-        int layerMask = LayerMask.GetMask(k_orangeCarLayer, k_blueCarLayer);
+        int redCarLayer = LayerMask.NameToLayer(k_redCarLayer);
+        int layerMask = LayerMask.GetMask(k_orangeCarLayer, k_blueCarLayer,k_redCarLayer);
 
         if (Physics.Raycast(origin, direction, out hit, rayLength, layerMask))
         {
@@ -46,6 +48,16 @@ public class PassengerController : MonoBehaviour
                     m_maxDistance = 0f;
                     GetComponent<CapsuleCollider>().enabled = false;
                     StartCoroutine(HandleDelayBetweenPassengers(PassengerSeatingManager.PassegnersType.BlueMan));
+                }
+            }
+
+            if (hit.collider.gameObject.layer == redCarLayer)
+            {
+                if (gameObject.CompareTag("RedMan"))
+                {
+                    m_maxDistance = 0f;
+                    GetComponent<CapsuleCollider>().enabled = false;
+                    StartCoroutine(HandleDelayBetweenPassengers(PassengerSeatingManager.PassegnersType.RedMan));
                 }
             }
         }
